@@ -14,12 +14,16 @@
     <div class="todos">
       <div class="list" v-for="todo in todolist" :key="todo.id">
         <p>{{ todo.name }}</p>
+        <div class="delete">
+          <DeleteTodo :todoItem="todo" @delete="onDelete" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import DeleteTodo from "./DeleteTodo.vue";
 export default {
   data() {
     return {
@@ -36,14 +40,21 @@ export default {
       ],
     };
   },
-  components: {},
+  components: {
+    DeleteTodo,
+  },
   methods: {
     addTodo() {
       this.todolist.push({
-        id: todolist.length + 1,
+        id: this.todolist.length + 1,
         name: this.inputText,
       });
+      this.inputText = "";
       console.log(this.inputText);
+    },
+    onDelete(item) {
+      console.log(item, "..");
+      this.todolist.splice(item, 1);
     },
   },
 };
@@ -94,21 +105,49 @@ export default {
 }
 .todos {
   margin-top: 25px;
-
   .list {
+    position: relative;
     color: #fff;
     margin: 8px auto;
-    padding: 8px 0;
     width: 400px;
     height: 50px;
     background: hsl(235, 24%, 19%);
-    outline: none;
-    border: none;
-    color: #fff;
     border-radius: 8px;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-family: "Josefin Sans";
-    line-height: 40px;
+    //line-height: 40px;
+
+    p {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: left;
+      padding: 0 20px;
+    }
+    .delete {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: inline-block;
+      padding: 0 160px;
+    }
+  }
+}
+@media only screen and(max-width: 400px) {
+  .todo-add {
+    .add-input {
+      input {
+        width: 300px;
+      }
+    }
+  }
+  .todos {
+    .list {
+      width: 300px;
+      .delete {
+        padding: 0 110px;
+      }
+    }
   }
 }
 </style>

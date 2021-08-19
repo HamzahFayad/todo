@@ -35,7 +35,7 @@ html,
   height: 100vh;
   font-size: 18px;
   background: hsl(235, 21%, 11%);
-
+  overflow-x: hidden;
   //margin-top: 60px;
 }
 </style>

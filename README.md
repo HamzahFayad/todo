@@ -1,6 +1,6 @@
 # Frontend Mentor CHallenge - Todo app
 
-![Design preview for the Todo app coding challenge](./design/desktop-preview.jpg)
+![Design preview for the Todo app coding challenge](/design/desktop-preview.jpg)
 
 ## The challenge
 

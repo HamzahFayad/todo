@@ -12,22 +12,34 @@
       </div>
     </div>
     <div class="todos">
-      <div class="list" v-for="todo in todolist" :key="todo.id">
-        <!-- <div class="check" @click="doneTodo()">
+      <draggable
+        v-model="todolist"
+        group="todos"
+        @start="drag = true"
+        @end="drag = false"
+      >
+        <div class="list" v-for="todo in todolist" :key="todo.id">
+          <!-- <div class="check" @click="doneTodo()">
           <img src="../assets/images/icon-check.svg" alt="" />
         </div>-->
-        <p @click="todo.done = !todo.done" :class="{ completed: todo.done }">
-          {{ todo.name }}
-        </p>
-        <div class="delete">
-          <DeleteTodo :todoItem="todo" @delete="onDelete" />
+          <p @click="todo.done = !todo.done" :class="{ completed: todo.done }">
+            {{ todo.name }}
+          </p>
+          <div class="delete">
+            <DeleteTodo :todoItem="todo" @delete="onDelete" />
+          </div>
         </div>
-      </div>
+      </draggable>
       <div class="subInfos">
-        <p>{{ todosLeft }} item<span v-show="todosLeft !== 1">s</span> left</p>
+        <p style="padding-right: 25px">
+          {{ todosLeft }} item<span v-show="todosLeft !== 1">s</span> left
+        </p>
         <p>All</p>
         <p>Active</p>
-        <p>Clear completed</p>
+        <p>Completed</p>
+        <p @click="clearCompleted()" style="padding-left: 25px">
+          Clear completed
+        </p>
       </div>
     </div>
   </div>
@@ -35,6 +47,7 @@
 
 <script>
 import DeleteTodo from "./DeleteTodo.vue";
+import draggable from "vuedraggable";
 export default {
   data() {
     return {
@@ -51,10 +64,20 @@ export default {
           done: true,
         },
       ],
+      //allTodos: "all",
     };
   },
+  /*filters: {
+    activeTodos: (todos) => {
+      return todos.filter((todo) => todo.done === false);
+    },
+    completedTodos: (todos) => {
+      return todos.filter((todo) => todo.done === true);
+    },
+  },*/
   components: {
     DeleteTodo,
+    draggable,
   },
   computed: {
     todosLeft() {
@@ -74,6 +97,13 @@ export default {
     onDelete(item) {
       console.log(item, "...");
       this.todolist.splice(item, 1);
+    },
+    clearCompleted() {
+      let completed = this.todolist.filter((todo) => todo.done === true);
+      completed.forEach((elem) => {
+        let i = this.todolist.indexOf(elem);
+        this.todolist.splice(i, 1);
+      });
     },
   },
 };
@@ -132,12 +162,9 @@ export default {
     height: 50px;
     background: hsl(235, 24%, 19%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.164);
-    //border-radius: 8px;
-    //border-bottom-left-radius: 0;
-    //border-bottom-right-radius: 0;
     font-size: 1rem;
     font-family: "Josefin Sans";
-    //line-height: 40px;
+    cursor: pointer;
     p {
       position: absolute;
       top: 50%;

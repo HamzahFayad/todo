@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="deleteIcon">
     <img @click="deleteTodo" src="../assets/images/icon-cross.svg" alt="" />
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style lang="scss">
-p {
-  color: #fff;
+.deleteIcon {
+  cursor: pointer;
 }
 </style>

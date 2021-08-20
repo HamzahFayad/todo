@@ -13,10 +13,21 @@
     </div>
     <div class="todos">
       <div class="list" v-for="todo in todolist" :key="todo.id">
-        <p>{{ todo.name }}</p>
+        <!-- <div class="check" @click="doneTodo()">
+          <img src="../assets/images/icon-check.svg" alt="" />
+        </div>-->
+        <p @click="todo.done = !todo.done" :class="{ completed: todo.done }">
+          {{ todo.name }}
+        </p>
         <div class="delete">
           <DeleteTodo :todoItem="todo" @delete="onDelete" />
         </div>
+      </div>
+      <div class="subInfos">
+        <p>{{ todosLeft }} item<span v-show="todosLeft !== 1">s</span> left</p>
+        <p>All</p>
+        <p>Active</p>
+        <p>Clear completed</p>
       </div>
     </div>
   </div>
@@ -32,10 +43,12 @@ export default {
         {
           id: 1,
           name: "Homework",
+          done: false,
         },
         {
           id: 2,
           name: "Training",
+          done: true,
         },
       ],
     };
@@ -43,17 +56,23 @@ export default {
   components: {
     DeleteTodo,
   },
+  computed: {
+    todosLeft() {
+      return this.todolist.filter((todo) => todo.done === false).length;
+    },
+  },
   methods: {
     addTodo() {
       this.todolist.push({
         id: this.todolist.length + 1,
         name: this.inputText,
+        done: false,
       });
       this.inputText = "";
       console.log(this.inputText);
     },
     onDelete(item) {
-      console.log(item, "..");
+      console.log(item, "...");
       this.todolist.splice(item, 1);
     },
   },
@@ -108,21 +127,24 @@ export default {
   .list {
     position: relative;
     color: #fff;
-    margin: 8px auto;
+    margin: 0 auto;
     width: 400px;
     height: 50px;
     background: hsl(235, 24%, 19%);
-    border-radius: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.164);
+    //border-radius: 8px;
+    //border-bottom-left-radius: 0;
+    //border-bottom-right-radius: 0;
     font-size: 1rem;
     font-family: "Josefin Sans";
     //line-height: 40px;
-
     p {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       text-align: left;
-      padding: 0 20px;
+      padding: 0 50px;
+      cursor: pointer;
     }
     .delete {
       position: absolute;
@@ -131,6 +153,32 @@ export default {
       display: inline-block;
       padding: 0 160px;
     }
+  }
+  .list:nth-child(1) {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  .subInfos {
+    position: relative;
+    color: rgb(177, 177, 177);
+    margin: 0 auto;
+    width: 400px;
+    height: 60px;
+    background: hsl(235, 24%, 19%);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    font-size: 0.85rem;
+    font-family: "Josefin Sans";
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    p {
+      transform: translateY(65%);
+    }
+  }
+  .completed {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.425);
   }
 }
 @media only screen and(max-width: 400px) {

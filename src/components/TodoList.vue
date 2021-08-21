@@ -143,7 +143,7 @@ export default {
       border: none;
       color: #fff;
       padding: 0 50px;
-      border-radius: 8px;
+      border-radius: 4px;
       font-size: 0.85rem;
       font-family: "Josefin Sans";
       &::placeholder {
@@ -163,6 +163,9 @@ export default {
       border: 2px solid hsla(234, 39%, 85%, 0.479);
     }
   }
+}
+input[type="checkbox"] {
+  filter: invert(100%) hue-rotate(-150deg) brightness(0.85);
 }
 .todos {
   margin-top: 25px;
@@ -200,8 +203,8 @@ export default {
     }
   }
   .list:nth-child(1) {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
   }
   .subInfos {
     position: relative;
@@ -210,8 +213,8 @@ export default {
     width: 400px;
     height: 60px;
     background: hsl(235, 24%, 19%);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     font-size: 0.85rem;
     font-family: "Josefin Sans";
     display: flex;

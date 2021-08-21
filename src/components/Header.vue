@@ -3,7 +3,7 @@
     <div class="head">
       <div class="xdx">
         <h1>Todo</h1>
-        <img src="../assets/images/icon-sun.svg" alt="" />
+        <!--<img src="../assets/images/icon-sun.svg" alt="" />-->
       </div>
     </div>
     <div class="todo">

@@ -18,11 +18,21 @@
         @start="drag = true"
         @end="drag = false"
       >
-        <div class="list" v-for="todo in todolist" :key="todo.id">
+        <div
+          class="list"
+          v-for="todo in todolist"
+          :key="todo.id + '-' + todo.name"
+        >
           <!-- <div class="check" @click="doneTodo()">
           <img src="../assets/images/icon-check.svg" alt="" />
         </div>-->
-          <p @click="todo.done = !todo.done" :class="{ completed: todo.done }">
+          <input
+            @change="todo.done = !todo.done"
+            :checked="todo.done"
+            class="checkComplete"
+            type="checkbox"
+          />
+          <p :class="{ completed: todo.done }">
             {{ todo.name }}
           </p>
           <div class="delete">
@@ -34,14 +44,18 @@
         <p style="padding-right: 25px">
           {{ todosLeft }} item<span v-show="todosLeft !== 1">s</span> left
         </p>
-        <p>All</p>
+        <!--<p>All</p>
         <p>Active</p>
-        <p>Completed</p>
-        <p @click="clearCompleted()" style="padding-left: 25px">
+        <p>Completed</p>-->
+        <p
+          @click="clearCompleted()"
+          style="padding-left: 25px; cursor: pointer"
+        >
           Clear completed
         </p>
       </div>
     </div>
+    <p class="info">Drag and drop to reorder list</p>
   </div>
 </template>
 
@@ -92,11 +106,9 @@ export default {
         done: false,
       });
       this.inputText = "";
-      console.log(this.inputText);
     },
     onDelete(item) {
-      console.log(item, "...");
-      this.todolist.splice(item, 1);
+      this.todolist.splice(this.todolist.indexOf(item), 1);
     },
     clearCompleted() {
       let completed = this.todolist.filter((todo) => todo.done === true);
@@ -161,6 +173,7 @@ export default {
     width: 400px;
     height: 50px;
     background: hsl(235, 24%, 19%);
+    box-shadow: 2px 4px 6px black;
     border-bottom: 1px solid rgba(255, 255, 255, 0.164);
     font-size: 1rem;
     font-family: "Josefin Sans";
@@ -169,9 +182,14 @@ export default {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      text-align: left;
-      padding: 0 50px;
+      margin: 0 50px;
       cursor: pointer;
+    }
+    .checkComplete {
+      position: absolute;
+      top: 50%;
+      transform: translate(-1400%, -50%);
+      padding: 0 20px;
     }
     .delete {
       position: absolute;
@@ -199,6 +217,8 @@ export default {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
+    box-shadow: 2px 4px 6px black;
+
     p {
       transform: translateY(65%);
     }
@@ -207,6 +227,11 @@ export default {
     text-decoration: line-through;
     color: rgba(255, 255, 255, 0.425);
   }
+}
+.info {
+  color: rgb(167, 167, 167);
+  margin: 3% 0;
+  font-size: 0.8rem;
 }
 @media only screen and(max-width: 400px) {
   .todo-add {
@@ -217,10 +242,14 @@ export default {
     }
   }
   .todos {
-    .list {
+    .list,
+    .subInfos {
       width: 300px;
       .delete {
         padding: 0 110px;
+      }
+      .checkComplete {
+        transform: translate(-1000%, -50%);
       }
     }
   }

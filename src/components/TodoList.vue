@@ -78,7 +78,7 @@ export default {
           done: true,
         },
       ],
-      //allTodos: "all",
+      //selectedFilter: "all",
     };
   },
   /*filters: {
@@ -98,6 +98,10 @@ export default {
       return this.todolist.filter((todo) => todo.done === false).length;
     },
   },
+  /*created() {
+    localStorage.setItem("arr", JSON.stringify(this.todolist));
+    this.todolist = JSON.parse(localStorage.getItem("arr"));
+  },*/
   methods: {
     addTodo() {
       this.todolist.push({
@@ -116,6 +120,17 @@ export default {
         let i = this.todolist.indexOf(elem);
         this.todolist.splice(i, 1);
       });
+    },
+    stillActive() {
+      let actives = this.todolist.filter((todo) => todo.done === false);
+      this.todolist = actives;
+    },
+    completed() {
+      let completed = this.todolist.filter((todo) => todo.done === true);
+      this.todolist = completed;
+    },
+    all() {
+      this.todolist = this.todolist;
     },
   },
 };

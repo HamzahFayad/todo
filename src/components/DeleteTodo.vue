@@ -1,6 +1,6 @@
 <template>
   <div class="deleteIcon">
-    <img @click="deleteTodo" src="../assets/images/icon-cross.svg" alt="" />
+    <div @click="deleteTodo" class="delete-icon"></div>
   </div>
 </template>
 
@@ -21,5 +21,13 @@ export default {
 <style lang="scss">
 .deleteIcon {
   cursor: pointer;
+}
+.delete-icon {
+  background-image: url("../assets/images/icon-cross.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 18px;
+  width: 18px;
+  position: relative;
 }
 </style>
